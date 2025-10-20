@@ -92,6 +92,21 @@ function Books() {
     fetchBooks(); // Refresh the list
   };
 
+  const handleDeleteBook = async (book) => {
+    const confirmed = window.confirm(
+      `Are you sure you want to delete "${book.title}"?\n\nThis action cannot be undone.`
+    );
+
+    if (!confirmed) return;
+
+    try {
+      await api.deleteBook(book.id);
+      fetchBooks(); // Refresh the list
+    } catch (err) {
+      alert(`Failed to delete book: ${err.message}`);
+    }
+  };
+
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
@@ -104,7 +119,7 @@ function Books() {
       {/* PostgREST Feature Badge */}
       <div className="bg-blue-900/30 border border-blue-700 rounded-lg px-4 py-3 mb-6">
         <p className="text-sm text-blue-200">
-          <span className="font-semibold">PostgREST Features:</span> Filtering, Sorting, Pagination, Embedding (Joins)
+          <span className="font-semibold">PostgREST Features:</span> CRUD Operations, Filtering, Sorting, Pagination, Embedding (Joins)
         </p>
         <p className="text-xs text-blue-300 mt-1 font-mono">
           GET /books?select=*,author:authors(name),genre:genres(name)&order={sortBy}&limit={limit}&offset={offset}
@@ -224,7 +239,10 @@ function Books() {
                           >
                             Edit
                           </button>
-                          <button className="text-red-400 hover:text-red-300 text-sm">
+                          <button
+                            onClick={() => handleDeleteBook(book)}
+                            className="text-red-400 hover:text-red-300 text-sm"
+                          >
                             Delete
                           </button>
                         </div>
