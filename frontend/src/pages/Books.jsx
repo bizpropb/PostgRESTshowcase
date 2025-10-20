@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import api from '../services/api';
+import BookForm from '../components/BookForm';
 
 function Books() {
   const [books, setBooks] = useState([]);
@@ -12,6 +13,10 @@ function Books() {
   const [limit, setLimit] = useState(10);
   const [offset, setOffset] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
+
+  // Form modal state
+  const [showForm, setShowForm] = useState(false);
+  const [editingBook, setEditingBook] = useState(null);
 
   // Fetch books
   const fetchBooks = async () => {
@@ -66,11 +71,32 @@ function Books() {
   const currentPage = Math.floor(offset / limit) + 1;
   const totalPages = Math.ceil(totalCount / limit);
 
+  const handleAddBook = () => {
+    setEditingBook(null);
+    setShowForm(true);
+  };
+
+  const handleEditBook = (book) => {
+    setEditingBook(book);
+    setShowForm(true);
+  };
+
+  const handleCloseForm = () => {
+    setShowForm(false);
+    setEditingBook(null);
+  };
+
+  const handleSaveBook = () => {
+    setShowForm(false);
+    setEditingBook(null);
+    fetchBooks(); // Refresh the list
+  };
+
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-bold text-dark-text">Books</h1>
-        <button className="btn-primary">
+        <button className="btn-primary" onClick={handleAddBook}>
           + Add Book
         </button>
       </div>
@@ -192,7 +218,10 @@ function Books() {
                       <td className="text-xs text-dark-text-secondary">{book.isbn || '-'}</td>
                       <td>
                         <div className="flex gap-2">
-                          <button className="text-blue-400 hover:text-blue-300 text-sm">
+                          <button
+                            onClick={() => handleEditBook(book)}
+                            className="text-blue-400 hover:text-blue-300 text-sm"
+                          >
                             Edit
                           </button>
                           <button className="text-red-400 hover:text-red-300 text-sm">
@@ -233,6 +262,15 @@ function Books() {
             </div>
           </div>
         </>
+      )}
+
+      {/* Book Form Modal */}
+      {showForm && (
+        <BookForm
+          book={editingBook}
+          onClose={handleCloseForm}
+          onSave={handleSaveBook}
+        />
       )}
     </div>
   );
