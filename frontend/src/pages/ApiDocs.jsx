@@ -22,8 +22,11 @@ function ApiDocs() {
             <h3 className="text-lg font-semibold text-dark-text mb-2">Alternative: Import to Swagger Editor</h3>
             <ol className="list-decimal list-inside text-dark-text-secondary space-y-2">
               <li>Go to <a href="https://editor.swagger.io/" target="_blank" rel="noopener noreferrer" className="text-dark-accent hover:text-dark-accent-hover">editor.swagger.io</a></li>
-              <li>Click "File" → "Import URL"</li>
-              <li>Enter: <code className="bg-dark-bg-tertiary px-2 py-1 rounded text-sm">http://localhost:3000/</code></li>
+              <li>Open <a href="http://localhost:3000/" target="_blank" rel="noopener noreferrer" className="text-dark-accent hover:text-dark-accent-hover">http://localhost:3000/</a> in a new tab</li>
+              <li>Select all the JSON (Ctrl+A / Cmd+A)</li>
+              <li>Copy it (Ctrl+C / Cmd+C)</li>
+              <li>Paste into Swagger Editor (Ctrl+V / Cmd+V)</li>
+              <li>When prompted, convert JSON to YAML</li>
             </ol>
           </div>
         </div>
