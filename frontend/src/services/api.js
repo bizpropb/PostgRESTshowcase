@@ -16,11 +16,14 @@ class ApiService {
   async request(endpoint, options = {}) {
     const url = `${this.baseUrl}${endpoint}`;
 
+    // Only set Content-Type header if there's a body
+    const headers = { ...options.headers };
+    if (options.body && !headers['Content-Type']) {
+      headers['Content-Type'] = 'application/json';
+    }
+
     const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        ...options.headers,
-      },
+      headers,
       ...options,
     };
 

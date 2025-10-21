@@ -20,7 +20,7 @@ services:
       retries: 5
 
   postgrest:
-    image: postgrest/postgrest:v12.0.2
+    image: postgrest/postgrest:v12.2.3
     container_name: bookdb_postgrest
     ports:
       - "3000:3000"
@@ -29,7 +29,6 @@ services:
       PGRST_DB_SCHEMAS: public
       PGRST_DB_ANON_ROLE: web_anon
       PGRST_JWT_SECRET: reallyreallyreallyreallyverysafe
-      PGRST_SERVER_CORS_ALLOWED_ORIGINS: "*"
       PGRST_OPENAPI_SERVER_PROXY_URI: http://localhost:3000
     depends_on:
       postgres:
