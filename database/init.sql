@@ -91,9 +91,11 @@ $$ LANGUAGE SQL STABLE;
 -- Permissions
 -- ============================================
 
--- Anonymous role: read-only access
+-- Anonymous role: full CRUD access for demo purposes
 GRANT USAGE ON SCHEMA public TO web_anon;
-GRANT SELECT ON authors, genres, books, book_details TO web_anon;
+GRANT SELECT, INSERT, UPDATE, DELETE ON authors, genres, books TO web_anon;
+GRANT SELECT ON book_details TO web_anon;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO web_anon;
 GRANT EXECUTE ON FUNCTION get_top_genres(INTEGER) TO web_anon;
 GRANT EXECUTE ON FUNCTION search_books(TEXT) TO web_anon;
 

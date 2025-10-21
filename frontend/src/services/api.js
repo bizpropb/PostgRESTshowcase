@@ -43,6 +43,11 @@ class ApiService {
         throw new Error(error.message || `HTTP ${response.status}`);
       }
 
+      // DELETE returns 204 No Content (empty body), don't try to parse JSON
+      if (response.status === 204) {
+        return { data: null, totalCount };
+      }
+
       const data = await response.json();
       return { data, totalCount };
     } catch (error) {
