@@ -16,10 +16,16 @@ class ApiService {
   async request(endpoint, options = {}) {
     const url = `${this.baseUrl}${endpoint}`;
 
-    // Only set Content-Type header if there's a body
-    const headers = { ...options.headers };
-    if (options.body && !headers['Content-Type']) {
+    // Set up headers
+    const headers = {
+      'Accept': 'application/json',
+      ...options.headers,
+    };
+
+    // Convert body to Blob to avoid charset being appended to Content-Type
+    if (options.body) {
       headers['Content-Type'] = 'application/json';
+      options.body = new Blob([options.body], { type: 'application/json' });
     }
 
     const config = {
