@@ -258,7 +258,7 @@ class ApiService {
   // ============================================
 
   async getBookCountByGenre() {
-    return this.request('/books?select=genre_id,count&group_by=genre_id');
+    return this.request('/books?select=genre_id,count()');
   }
 }
 
